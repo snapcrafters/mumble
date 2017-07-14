@@ -10,18 +10,21 @@ apps:
   mumble:
     command: bin/mumble
 parts:
+  patches:
+    plugin: dump
+    source: snap/patches
+    prime: [-*]
   mumble:
+    after: [patches]
+    plugin: qmake
     source: https://github.com/mumble-voip/mumble.git
     source-tag: 1.2.19
-    # See 'snapcraft plugins'
-    plugin: qmake
+    prepare: git apply $SNAPCRAFT_STAGE/mumble.patch
     qt-version: qt4
     options:
-      - CONFIG+=no-server -recursiverockroc
+      - CONFIG+=no-server -recursive
     project-files:
       - "main.pro"
-    # prepare: git apply $SNAPCRAFT_STAGE/patches/mumble.patch
-    prepare: git apply $SNAPCRAFT_STAGE/mumble.patch
     build-packages:
       - build-essential
       - pkg-config
@@ -43,5 +46,3 @@ parts:
       - libsndfile1-dev
       - libg15daemon-client-dev
       - libxi-dev
-  patches:
-    source: snap/patches
