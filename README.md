@@ -33,7 +33,7 @@ the [snapcraft.yaml](https://github.com/snapcrafters/fork-and-rename-me/blob/mas
 upstream so [Project] can authoritatively publish future releases.
 
   - [x] Fork the [Snapcrafters template](https://github.com/snapcrafters/fork-and-rename-me) repository to your own GitHub account
-  - [ ] Rename the forked Snapcrafters template repository
+  - [X] Rename the forked Snapcrafters template repository
   - [ ] Update logos and references to `[Project]` and `[my-snap-name]`
   - [ ] Create a snap that runs in `devmode`
   - [ ] Register the snap in the store, **using the preferred upstream name**

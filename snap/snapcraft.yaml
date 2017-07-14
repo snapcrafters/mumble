@@ -1,15 +1,47 @@
-name: my-snap-name # you probably want to 'snapcraft register <name>'
-version: '0.1' # just for humans, typically '1.2+git' or '1.3.2'
-summary: Single-line elevator pitch for your amazing snap # 79 char long summary
+name: mumble # you probably want to 'snapcraft register <name>'
+version: '1.2.19-git' # just for humans, typically '1.2+git' or '1.3.2'
+summary: Mumble is an open source, low-latency, high quality voice chat software. # 79 char long summary
 description: |
-  This is my-snap's description. You have a paragraph or two to tell the
-  most important story about your snap. Keep it under 100 words though,
-  we live in tweetspace and your description wants to look good in the snap
-  store.
-
+  Mumble is a voice chat application for groups. While it can be used for any kind of activity, it is primarily intended for gaming. It can be compared to programs like Ventrilo or TeamSpeak. People tend to simplify things, so when they talk about Mumble they either talk about "Mumble" the client application or about "Mumble & Murmur" the whole voice chat application suite.
+grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
+apps:
+  mumble:
+    command: bin/mumble
 parts:
-  my-part:
+  mumble:
+    source: https://github.com/mumble-voip/mumble.git
+    source-tag: 1.2.19
     # See 'snapcraft plugins'
-    plugin: nil
+    plugin: qmake
+    qt-version: qt4
+    options:
+      - CONFIG+=no-server -recursiverockroc
+    project-files:
+      - "main.pro"
+    # prepare: git apply $SNAPCRAFT_STAGE/patches/mumble.patch
+    prepare: git apply $SNAPCRAFT_STAGE/mumble.patch
+    build-packages:
+      - build-essential
+      - pkg-config
+      - qt4-dev-tools
+      - libqt4-dev
+      - libspeex1
+      - libspeex-dev
+      - libboost-dev
+      - libasound2-dev
+      - libssl-dev
+      - libspeechd-dev
+      - libzeroc-ice-dev
+      - libpulse-dev
+      - libcap-dev
+      - libprotobuf-dev
+      - protobuf-compiler
+      - libogg-dev
+      - libavahi-compat-libdnssd-dev
+      - libsndfile1-dev
+      - libg15daemon-client-dev
+      - libxi-dev
+  patches:
+    source: snap/patches
