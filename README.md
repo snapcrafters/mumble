@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/bashfulrobot/snapcrafters-mumble/master/img/mumble-logo.png" alt="Project">
+  <img src="https://raw.githubusercontent.com/bashfulrobot/snapcrafters-mumble/master/img/mumble-logo.png" alt="Mumble">
   <br />
   Mumble
 </h1>
@@ -17,13 +17,13 @@ distributions.</p>
 ## Install
 
     sudo apt install snapd-xdg-open
-    sudo snap install my-snap-name
+    sudo snap install mumble
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 -->
 
 <!-- Uncomment and modify this when you have a screenshot
-![my-snap-name](screenshot.png?raw=true "my-snap-name")
+!mumble(screenshot.png?raw=true "mumble")
 -->
 
 <p align="center">Published for <img src="http://anything.codes/slack-emoji-for-techies/emoji/tux.png" align="top" width="24" /> with :gift_heart: by Snapcrafters</p>
@@ -32,10 +32,10 @@ distributions.</p>
 
 Snapcrafters ([join us]()) are working to land snap install documentation and
 the [snapcraft.yaml](https://github.com/snapcrafters/fork-and-rename-me/blob/master/snap/snapcraft.yaml)
-upstream so [Project] can authoritatively publish future releases.
+upstream so Mumble can authoritatively publish future releases.
 
   - [x] Fork the [Snapcrafters template](https://github.com/snapcrafters/fork-and-rename-me) repository to your own GitHub account
-  - [X] Rename the forked Snapcrafters template repository
+  - [x] Rename the forked Snapcrafters template repository
   - [ ] Update logos and references to `[Project]` and `[my-snap-name]`
   - [ ] Create a snap that runs in `devmode`
   - [ ] Register the snap in the store, **using the preferred upstream name**
