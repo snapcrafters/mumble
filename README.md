@@ -30,7 +30,7 @@ distributions.</p>
 
 ## Remaining tasks
 
-Snapcrafters ([join us]()) are working to land snap install documentation and
+Snapcrafters ([join us](https://forum.snapcraft.io/t/join-snapcrafters/1325)) are working to land snap install documentation and
 the [snapcraft.yaml](https://github.com/snapcrafters/fork-and-rename-me/blob/master/snap/snapcraft.yaml)
 upstream so Mumble can authoritatively publish future releases.
 
