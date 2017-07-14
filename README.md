@@ -64,7 +64,7 @@ If you have any questions, [post in the Snapcraft forum](https://forum.snapcraft
 
 ## The Snapcrafters
 
-| [![Dustin Krysak](https://avatars5.githubusercontent.com/u/10782881?v=4&s=256)](https://github.com/bashfulrobot/) |
+| [![Dustin Krysak](https://avatars5.githubusercontent.com/u/10782881?v=4&s=128)](https://github.com/bashfulrobot/) |
 | :---: |
 | [Dustin Krysak](https://github.com/bashfulrobot/) |
 
