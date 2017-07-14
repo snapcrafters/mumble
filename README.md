@@ -13,12 +13,14 @@ distributions.</p>
 </p>
 -->
 
+<!-- Uncomment when install is ready
 ## Install
 
     sudo apt install snapd-xdg-open
     sudo snap install my-snap-name
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
+-->
 
 <!-- Uncomment and modify this when you have a screenshot
 ![my-snap-name](screenshot.png?raw=true "my-snap-name")
@@ -62,9 +64,9 @@ If you have any questions, [post in the Snapcraft forum](https://forum.snapcraft
 
 ## The Snapcrafters
 
-| [![Your Name](http://gravatar.com/avatar/bc0bced65e963eb5c3a16cab8b004431/?s=128)](https://github.com/yourname/) |
+| [![Dustin Krysak](https://avatars5.githubusercontent.com/u/10782881?v=4&s=256)](https://github.com/bashfulrobot/) |
 | :---: |
-| [Your Name](https://github.com/yourname/) |
+| [Dustin Krysak](https://github.com/bashfulrobot/) |
 
 <!-- Uncomment and modify this when you have upstream contacts
 ## Upstream
