@@ -9,6 +9,7 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 apps:
   mumble:
     command: bin/mumble
+    desktop: mumble.desktop
 parts:
   mumble:
     plugin: qmake
@@ -20,6 +21,11 @@ parts:
     install: |
       mkdir $SNAPCRAFT_PART_INSTALL/bin
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
+      echo "++++++++++++++++++++"
+      pwd
+      echo "++++++++++++++++++++"
+      cp ../mumble.desktop $SNAPCRAFT_PART_INSTALL/mumble.desktop
+      cp ../img/mumble-logo.png $SNAPCRAFT_PART_INSTALL/mumble-logo.png
     build-packages:
       - build-essential
       - pkg-config
@@ -41,3 +47,8 @@ parts:
       - libsndfile1-dev
       - libg15daemon-client-dev
       - libxi-dev
+    stage-packages:
+      - libavahi-compat-libdnssd1
+      - libg15daemon-client1
+      - libqt4-sql-sqlite
+      - libgtk2.0-0
