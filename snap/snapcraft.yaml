@@ -5,11 +5,11 @@ description: |
   Mumble is a voice chat application for groups. While it can be used for any kind of activity, it is primarily intended for gaming. It can be compared to programs like Ventrilo or TeamSpeak. People tend to simplify things, so when they talk about Mumble they either talk about "Mumble" the client application or about "Mumble & Murmur" the whole voice chat application suite.
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
+# icon: 
 
 apps:
   mumble:
     command: bin/mumble
-    desktop: mumble.desktop
 parts:
   mumble:
     plugin: qmake
@@ -21,11 +21,6 @@ parts:
     install: |
       mkdir $SNAPCRAFT_PART_INSTALL/bin
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
-      echo "++++++++++++++++++++"
-      pwd
-      echo "++++++++++++++++++++"
-      cp ../mumble.desktop $SNAPCRAFT_PART_INSTALL/mumble.desktop
-      cp ../img/mumble-logo.png $SNAPCRAFT_PART_INSTALL/mumble-logo.png
     build-packages:
       - build-essential
       - pkg-config

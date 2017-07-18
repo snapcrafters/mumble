@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Mumble
+Exec=/bin/mumble
+Icon=${SNAP}/meta/gui/mumble-logo.png
+Type=Application
+Categories=AudioVideo;
+StartupWMClass=Mumble
