@@ -1,5 +1,5 @@
 name: mumble
-version: '1.2.19-git'
+version: '1.2.19'
 summary: Mumble is an open source, low-latency, high quality voice chat software. # 79 char long summary
 description: |
   Mumble is a voice chat application for groups. While it can be used for any kind
@@ -31,7 +31,7 @@ parts:
     source-tag: 1.2.19
     qt-version: qt4
     options:
-      - CONFIG+=no-server -recursive
+      - CONFIG+=no-server -recursive no-update packaged
     install: |
       mkdir $SNAPCRAFT_PART_INSTALL/bin
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
