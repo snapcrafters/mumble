@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=Mumble
 Exec=/bin/mumble
-Icon=${SNAP}/meta/gui/mumble-logo.png
+Icon=${SNAP}/meta/gui/mumble.png
 Type=Application
 Categories=AudioVideo;
 StartupWMClass=Mumble
