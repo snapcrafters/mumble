@@ -31,7 +31,7 @@ parts:
 #    source-tag: 1.2.19
     qt-version: qt5
     options:
-      - CONFIG+=no-server -recursive no-update packaged
+      - CONFIG+=no-server -recursive no-update packaged no-embed-qt-translations release bundled-celt symbols
     install: |
       mkdir $SNAPCRAFT_PART_INSTALL/bin
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
