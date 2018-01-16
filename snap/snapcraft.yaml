@@ -59,6 +59,7 @@ parts:
       - libavahi-compat-libdnssd-dev
       - libxi-dev
       - libcap-dev 
+      - libboost1.58-dev
     stage-packages:
       - libavahi-compat-libdnssd1
       - libg15daemon-client1
