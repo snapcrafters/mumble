@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Mumble
-Exec=/bin/mumble
+Exec=mumble
 Icon=${SNAP}/meta/gui/mumble.png
 Type=Application
 Categories=AudioVideo;
