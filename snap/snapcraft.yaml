@@ -16,6 +16,7 @@ apps:
     command: desktop-launch $SNAP/bin/mumble
     plugs:
       - network
+      - network-manager
       - pulseaudio
       - desktop
       - desktop-legacy
