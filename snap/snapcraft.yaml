@@ -28,7 +28,6 @@ parts:
     after: [desktop-qt5]
     plugin: qmake
     source: https://github.com/mumble-voip/mumble.git
-#    source-tag: 1.2.19
     qt-version: qt5
     options:
       - CONFIG+=no-server -recursive no-update packaged no-embed-qt-translations release bundled-celt symbols
@@ -65,3 +64,4 @@ parts:
       - libg15daemon-client1
       - libqt5sql5-sqlite
       - libgtk2.0-0
+      - lsb-release
