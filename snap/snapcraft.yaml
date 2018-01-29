@@ -18,6 +18,7 @@ apps:
       - network
       - network-manager
       - pulseaudio
+      - opengl
       - desktop
       - desktop-legacy
       - x11
@@ -61,6 +62,8 @@ parts:
       - libcap-dev 
       - libboost1.58-dev
     stage-packages:
+      - libgl1-mesa-glx
+      - libglu1-mesa
       - libavahi-compat-libdnssd1
       - libg15daemon-client1
       - libqt5sql5-sqlite
