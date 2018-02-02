@@ -14,17 +14,19 @@ confinement: strict
 apps:
   mumble:
     command: desktop-launch $SNAP/bin/mumble
+    environment:
+      ALSA_CONFIG_PATH: $SNAP/etc/alsa.conf
     plugs:
-      - network
-      - network-manager
-      - pulseaudio
-      - opengl
-      - desktop
-      - desktop-legacy
-      - x11
-      - unity7
-      - home
-      
+    - desktop
+    - desktop-legacy
+    - home
+    - network
+    - network-manager
+    - opengl
+    - pulseaudio
+    - unity7
+    - x11
+
 parts:
   mumble:
     after: [desktop-qt5]
@@ -32,40 +34,50 @@ parts:
     source: https://github.com/mumble-voip/mumble.git
     qt-version: qt5
     options:
-      - CONFIG+=no-server -recursive no-update packaged no-embed-qt-translations release bundled-celt symbols
+    - CONFIG+=no-alsa no-oss no-server -recursive no-update packaged no-embed-qt-translations release bundled-celt symbols
     install: |
       mkdir $SNAPCRAFT_PART_INSTALL/bin
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
     build-packages:
-      - qt5-default
-      - qttools5-dev-tools
-      - libqt5svg5-dev
-      - libqt5opengl5-dev
-      - libgl1-mesa-dev
-      - libasound2-dev
-      - libpulse-dev
-      - libogg-dev
-      - libspeex-dev
-      - libspeexdsp-dev
-      - libopus-dev
-      - libsndfile1-dev
-      - libssl-dev
-      - libzeroc-ice35-dev
-      - ice35-translators
-      - ice35-slice
-      - libg15daemon-client-dev
-      - libspeechd-dev
-      - protobuf-compiler
-      - libprotobuf-dev
-      - libavahi-compat-libdnssd-dev
-      - libxi-dev
-      - libcap-dev 
-      - libboost1.58-dev
+    - ice35-slice
+    - ice35-translators
+    - libavahi-compat-libdnssd-dev
+    - libboost1.58-dev
+    - libcap-dev 
+    - libg15daemon-client-dev
+    - libgl1-mesa-dev
+    - libogg-dev
+    - libopus-dev
+    - libprotobuf-dev
+    - libpulse-dev
+    - libqt5opengl5-dev
+    - libqt5svg5-dev
+    - libsndfile1-dev
+    - libspeechd-dev
+    - libspeex-dev
+    - libspeexdsp-dev
+    - libssl-dev
+    - libxi-dev
+    - libzeroc-ice35-dev
+    - protobuf-compiler
+    - qt5-default
+    - qttools5-dev-tools
     stage-packages:
-      - libgl1-mesa-glx
-      - libglu1-mesa
-      - libavahi-compat-libdnssd1
-      - libg15daemon-client1
-      - libqt5sql5-sqlite
-      - libgtk2.0-0
-      - lsb-release
+    - libasyncns0
+    - libavahi-compat-libdnssd1
+    - libflac8
+    - libg15daemon-client1
+    - libgl1-mesa-glx
+    - libglu1-mesa
+    - libgtk2.0-0
+    - libogg0
+    - libprotobuf9v5
+    - libpulse0
+    - libqt5sql5-sqlite
+    - libqt5xml5
+    - libsndfile1
+    - libspeechd2
+    - libspeex1
+    - libspeexdsp1
+    - libvorbis0a
+    - libvorbisenc2
