@@ -79,5 +79,6 @@ parts:
     - libspeechd2
     - libspeex1
     - libspeexdsp1
+    - libthai-data
     - libvorbis0a
     - libvorbisenc2
