@@ -1,5 +1,6 @@
 name: mumble
-version: '1.3.0-dev'
+version: stable
+version-script: git -C parts/mumble/src describe --tags
 summary: Mumble is an open source, low-latency, high quality voice chat software. # 79 char long summary
 description: |
   Mumble is a voice chat application for groups. While it can be used for any
@@ -30,6 +31,15 @@ apps:
 parts:
   mumble:
     after: [desktop-qt5]
+    prepare: |
+      last_committed_tag="$(git describe --tags --abbrev=0)"
+      last_released_tag="$(snap info mumble | awk '$1 == "beta:" { print $2 }')"
+      # If the latest tag from the upstream project has not been released to
+      # beta, build that tag instead of master.
+      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
+        git fetch
+        git checkout "${last_committed_tag}"
+      fi  
     plugin: qmake
     source: https://github.com/mumble-voip/mumble.git
     qt-version: qt5
