@@ -18,20 +18,25 @@ apps:
     environment:
       ALSA_CONFIG_PATH: $SNAP/etc/alsa.conf
     plugs:
-    - desktop
-    - desktop-legacy
-    - home
-    - network
-    - network-manager
-    - opengl
-    - pulseaudio
-    - unity7
-    - x11
+      - desktop
+      - desktop-legacy
+      - home
+      - network
+      - network-manager
+      - opengl
+      - pulseaudio
+      - unity7
+      - x11
 
 parts:
   mumble:
     after: [desktop-qt5]
-    prepare: |
+    plugin: qmake
+    source: https://github.com/mumble-voip/mumble.git
+    qt-version: qt5
+    options:
+      - CONFIG+=no-alsa no-oss no-server -recursive no-update packaged no-embed-qt-translations release bundled-celt symbols
+    override-build: |
       last_committed_tag="$(git describe --tags --abbrev=0)"
       last_released_tag="$(snap info mumble | awk '$1 == "beta:" { print $2 }')"
       # If the latest tag from the upstream project has not been released to
@@ -39,56 +44,58 @@ parts:
       if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
         git fetch
         git checkout "${last_committed_tag}"
-      fi  
-    plugin: qmake
-    source: https://github.com/mumble-voip/mumble.git
-    qt-version: qt5
-    options:
-    - CONFIG+=no-alsa no-oss no-server -recursive no-update packaged no-embed-qt-translations release bundled-celt symbols
-    install: |
-      mkdir $SNAPCRAFT_PART_INSTALL/bin
+      fi
+
+      git submodule init
+      git submodule update
+
+      snapcraftctl build
+
+      if [ ! -d $SNAPCRAFT_PART_INSTALL/bin ]; then
+        mkdir $SNAPCRAFT_PART_INSTALL/bin
+      fi
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
     build-packages:
-    - ice35-slice
-    - ice35-translators
-    - libavahi-compat-libdnssd-dev
-    - libboost1.58-dev
-    - libcap-dev 
-    - libg15daemon-client-dev
-    - libgl1-mesa-dev
-    - libogg-dev
-    - libopus-dev
-    - libprotobuf-dev
-    - libpulse-dev
-    - libqt5opengl5-dev
-    - libqt5svg5-dev
-    - libsndfile1-dev
-    - libspeechd-dev
-    - libspeex-dev
-    - libspeexdsp-dev
-    - libssl-dev
-    - libxi-dev
-    - libzeroc-ice35-dev
-    - protobuf-compiler
-    - qt5-default
-    - qttools5-dev-tools
+      - ice35-slice
+      - ice35-translators
+      - libavahi-compat-libdnssd-dev
+      - libboost1.58-dev
+      - libcap-dev
+      - libg15daemon-client-dev
+      - libgl1-mesa-dev
+      - libogg-dev
+      - libopus-dev
+      - libprotobuf-dev
+      - libpulse-dev
+      - libqt5opengl5-dev
+      - libqt5svg5-dev
+      - libsndfile1-dev
+      - libspeechd-dev
+      - libspeex-dev
+      - libspeexdsp-dev
+      - libssl-dev
+      - libxi-dev
+      - libzeroc-ice35-dev
+      - protobuf-compiler
+      - qt5-default
+      - qttools5-dev-tools
     stage-packages:
-    - libasyncns0
-    - libavahi-compat-libdnssd1
-    - libflac8
-    - libg15daemon-client1
-    - libgl1-mesa-glx
-    - libglu1-mesa
-    - libgtk2.0-0
-    - libogg0
-    - libprotobuf9v5
-    - libpulse0
-    - libqt5sql5-sqlite
-    - libqt5xml5
-    - libsndfile1
-    - libspeechd2
-    - libspeex1
-    - libspeexdsp1
-    - libthai-data
-    - libvorbis0a
-    - libvorbisenc2
+      - libasyncns0
+      - libavahi-compat-libdnssd1
+      - libflac8
+      - libg15daemon-client1
+      - libgl1-mesa-glx
+      - libglu1-mesa
+      - libgtk2.0-0
+      - libogg0
+      - libprotobuf9v5
+      - libpulse0
+      - libqt5sql5-sqlite
+      - libqt5xml5
+      - libsndfile1
+      - libspeechd2
+      - libspeex1
+      - libspeexdsp1
+      - libthai-data
+      - libvorbis0a
+      - libvorbisenc2
