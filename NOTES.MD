@@ -1,21 +1,21 @@
 ## APT Dependencies
 
-* libavahi-compat-libdnssd1
-* libg15daemon-client1
+ * `libavahi-compat-libdnssd1`
+ * `libg15daemon-client1`
 
 ## Link to Mumble Issue
 
-https://github.com/mumble-voip/mumble/issues/3177
+  * https://github.com/mumble-voip/mumble/issues/3177
 
 ## Issues
 
-* Upon launch, I have a popup that states:
+  * Upon launch, I have a popup that states:
 
 ```
 Mumble failed to initialize a database in any of the possible locations
 ```
 
-* Terminal Output on launch:
+  * Terminal Output on launch:
 
 ```
 QGtkStyle could not resolve GTK. Make sure you have installed the proper libraries.
@@ -36,7 +36,7 @@ Database: Failed initialization
 Aborted (core dumped)
 ```
 
-Latest:
+  * Latest:
 
 ```
 (process:4388): Gtk-WARNING **: Locale not supported by C library.
