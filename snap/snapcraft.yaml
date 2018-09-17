@@ -1,6 +1,4 @@
 name: mumble
-version: stable
-version-script: git -C parts/mumble/src describe --tags
 summary: Mumble is an open source, low-latency, high quality voice chat software. # 79 char long summary
 description: |
   Mumble is a voice chat application for groups. While it can be used for any
@@ -8,6 +6,7 @@ description: |
   to programs like Ventrilo or TeamSpeak. People tend to simplify things, so
   when they talk   about Mumble they either talk about "Mumble" the client
   application or about "Mumble & Murmur" the whole voice chat application suite.
+adopt-info: mumble
 
 grade: stable
 confinement: strict
@@ -33,29 +32,20 @@ parts:
     after: [desktop-qt5]
     plugin: qmake
     source: https://github.com/mumble-voip/mumble.git
+    source-branch: "master"
     qt-version: qt5
     options:
       - CONFIG+=no-alsa no-oss no-server -recursive no-update packaged no-embed-qt-translations release bundled-celt symbols
     override-build: |
-      last_committed_tag="$(git describe --tags --abbrev=0)"
-      last_released_tag="$(snap info mumble | awk '$1 == "beta:" { print $2 }')"
-      # If the latest tag from the upstream project has not been released to
-      # beta, build that tag instead of master.
-      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
-        git fetch
-        git checkout "${last_committed_tag}"
-      fi
-
       git submodule init
       git submodule update
-
       snapcraftctl build
-
       if [ ! -d $SNAPCRAFT_PART_INSTALL/bin ]; then
         mkdir $SNAPCRAFT_PART_INSTALL/bin
       fi
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
-    build-packages:
+      snapcraftctl set-version "$(git describe --tags)"
+build-packages:
       - ice35-slice
       - ice35-translators
       - libavahi-compat-libdnssd-dev
