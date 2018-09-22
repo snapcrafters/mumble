@@ -45,7 +45,7 @@ parts:
       fi
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
       snapcraftctl set-version "$(git describe --tags)"
-build-packages:
+    build-packages:
       - ice35-slice
       - ice35-translators
       - libavahi-compat-libdnssd-dev
