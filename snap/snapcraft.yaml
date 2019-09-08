@@ -7,6 +7,7 @@ description: |
   when they talk   about Mumble they either talk about "Mumble" the client
   application or about "Mumble & Murmur" the whole voice chat application suite.
 adopt-info: mumble
+base: core18
 
 grade: stable
 confinement: strict
@@ -28,6 +29,32 @@ apps:
       - x11
 
 parts:
+  desktop-qt5:
+    build-packages:
+    - build-essential
+    - qtbase5-dev
+    - dpkg-dev
+    make-parameters:
+    - FLAVOR=qt5
+    plugin: make
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: qt
+    stage-packages:
+    - libxkbcommon0
+    - ttf-ubuntu-font-family
+    - dmz-cursor-theme
+    - light-themes
+    - adwaita-icon-theme
+    - gnome-themes-standard
+    - shared-mime-info
+    - libqt5gui5
+    - libgdk-pixbuf2.0-0
+    - libqt5svg5
+    - try:
+      - appmenu-qt5
+    - locales-all
+    - xdg-user-dirs
+    - fcitx-frontend-qt5
   mumble:
     after: [desktop-qt5]
     plugin: qmake
@@ -56,10 +83,9 @@ parts:
       fi
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
     build-packages:
-      - ice35-slice
-      - ice35-translators
+      - zeroc-ice-slice
       - libavahi-compat-libdnssd-dev
-      - libboost1.58-dev
+      - libboost1.62-dev
       - libcap-dev
       - libg15daemon-client-dev
       - libgl1-mesa-dev
@@ -75,7 +101,7 @@ parts:
       - libspeexdsp-dev
       - libssl-dev
       - libxi-dev
-      - libzeroc-ice35-dev
+      - libzeroc-ice-dev
       - protobuf-compiler
       - qt5-default
       - qttools5-dev-tools
@@ -99,3 +125,4 @@ parts:
       - libthai-data
       - libvorbis0a
       - libvorbisenc2
+
