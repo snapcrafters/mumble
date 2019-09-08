@@ -36,6 +36,17 @@ parts:
     qt-version: qt5
     options:
       - CONFIG+=no-alsa no-oss no-server -recursive no-update packaged no-embed-qt-translations release bundled-celt symbols
+    override-pull: |
+      snapcraftctl pull
+      last_committed_tag="$(git describe --tags --abbrev=0)"
+      last_released_tag="$(snap info mumble | awk '$1 == "beta:" { print $2 }')"
+      # If the latest tag from the upstream project has not been released to
+      # beta, build that tag instead of master.
+      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
+        git fetch
+        git checkout "${last_committed_tag}"
+      fi
+      snapcraftctl set-version "$(git describe --tags)"
     override-build: |
       git submodule init
       git submodule update
@@ -44,7 +55,6 @@ parts:
         mkdir $SNAPCRAFT_PART_INSTALL/bin
       fi
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
-      snapcraftctl set-version "$(git describe --tags)"
     build-packages:
       - ice35-slice
       - ice35-translators
