@@ -27,6 +27,7 @@ apps:
       - pulseaudio
       - unity7
       - x11
+      - jack1
 
 parts:
   desktop-qt5:
@@ -89,6 +90,7 @@ parts:
       - libcap-dev
       - libg15daemon-client-dev
       - libgl1-mesa-dev
+      - libjack-dev
       - libogg-dev
       - libopus-dev
       - libprotobuf-dev
@@ -125,4 +127,6 @@ parts:
       - libthai-data
       - libvorbis0a
       - libvorbisenc2
+      - jackd1
+
 
