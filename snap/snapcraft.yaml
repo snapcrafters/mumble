@@ -26,7 +26,6 @@ apps:
       - network
       - network-manager
       - opengl
-      - pulseaudio
       - unity7
       - x11
       - jack1
@@ -65,7 +64,7 @@ parts:
     source-branch: "master"
     qt-version: qt5
     options:
-      - CONFIG+=no-alsa no-oss no-server -recursive no-update packaged release bundled-celt symbols no-gl5
+      - CONFIG+=no-alsa no-oss no-server -recursive no-update packaged release bundled-celt symbols no-g15
       - DEFINES+=NO_UPDATE_CHECK
     override-pull: |
       snapcraftctl pull
@@ -87,6 +86,7 @@ parts:
       fi
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
     build-packages:
+      - zeroc-ice-compilers
       - zeroc-ice-slice
       - libavahi-compat-libdnssd-dev
       - libboost-dev
@@ -95,7 +95,6 @@ parts:
       - libgl1-mesa-dev
       - libjack-dev
       - libogg-dev
-      #- libopus-dev
       - libprotobuf-dev
       - libpulse-dev
       - libqt5opengl5-dev
