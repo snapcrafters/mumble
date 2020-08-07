@@ -18,13 +18,14 @@ apps:
     environment:
       ALSA_CONFIG_PATH: $SNAP/etc/alsa.conf
     plugs:
+      - audio-playback
+      - audio-record
       - desktop
       - desktop-legacy
       - home
       - network
       - network-manager
       - opengl
-      - pulseaudio
       - unity7
       - x11
       - jack1
@@ -63,10 +64,11 @@ parts:
     source-branch: "master"
     qt-version: qt5
     options:
-      - CONFIG+=no-alsa no-oss no-server -recursive no-update packaged no-embed-qt-translations release bundled-celt symbols
+      - CONFIG+=no-alsa no-oss no-server -recursive no-update packaged release bundled-celt symbols no-g15
+      - DEFINES+=NO_UPDATE_CHECK
     override-pull: |
       snapcraftctl pull
-      last_committed_tag="$(git for-each-ref --sort=taggerdate --format '%(tag)' refs/tags | tail -n 1)"
+      last_committed_tag="$(git tag | tail -n 1)"
       last_released_tag="$(snap info mumble | awk '$1 == "latest/beta:" { print $2 }')"
       # If the latest tag from the upstream project has not been released to
       # beta, build that tag instead of master.
@@ -84,15 +86,15 @@ parts:
       fi
       cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
     build-packages:
+      - zeroc-ice-compilers
       - zeroc-ice-slice
       - libavahi-compat-libdnssd-dev
-      - libboost1.62-dev
+      - libboost-dev
       - libcap-dev
       - libg15daemon-client-dev
       - libgl1-mesa-dev
       - libjack-dev
       - libogg-dev
-      - libopus-dev
       - libprotobuf-dev
       - libpulse-dev
       - libqt5opengl5-dev
@@ -107,6 +109,7 @@ parts:
       - protobuf-compiler
       - qt5-default
       - qttools5-dev-tools
+      - qttranslations5-l10n
     stage-packages:
       - libasyncns0
       - libavahi-compat-libdnssd1
