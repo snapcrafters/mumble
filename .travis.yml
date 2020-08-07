@@ -21,9 +21,8 @@ install:
   - sudo apt autoremove --yes --purge lxd lxd-client
   - sudo /snap/bin/lxd init --auto
   - sudo /snap/bin/lxd waitready
-  - sudo adduser "$USER" lxd
-  - newgrp lxd
 script:
-  - snapcraft --use-lxd
+  # Workaround until https://github.com/snapcore/snapcraft/pull/3240 is released.
+  - sudo bash -c "unset SUDO_USER && snapcraft --use-lxd"
 after_failure:
   - http https://api.snapcraft.io/v2/snaps/info/core architecture==amd64 Snap-Device-Series:16
