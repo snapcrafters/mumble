@@ -24,7 +24,5 @@ install:
   - sudo adduser "$USER" lxd
 script:
   - snapcraft --use-lxd
-after_success:
-  - cp *.snap "$(echo "$TRAVIS_REPO_SLUG" | sed -e 's|.*/\(.*\)|\1|')-pr$TRAVIS_PULL_REQUEST.snap"
 after_failure:
   - http https://api.snapcraft.io/v2/snaps/info/core architecture==amd64 Snap-Device-Series:16
