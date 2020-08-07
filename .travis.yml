@@ -19,9 +19,10 @@ addons:
 
 install:
   - sudo /snap/bin/lxd.migrate -yes
-  - sudo /snap/bin/lxd waitready
   - sudo /snap/bin/lxd init --auto
   - sudo adduser "$USER" lxd
+  - sudo /snap/bin/lxd waitready
+  - newgrp lxd
 script:
   - snapcraft --use-lxd
 after_failure:
