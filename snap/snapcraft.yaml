@@ -14,7 +14,8 @@ confinement: strict
 
 apps:
   mumble:
-    command: desktop-launch $SNAP/bin/mumble
+    command: bin/mumble
+    command-chain: [bin/desktop-launch]
     environment:
       ALSA_CONFIG_PATH: $SNAP/etc/alsa.conf
     plugs:
@@ -23,12 +24,13 @@ apps:
       - desktop
       - desktop-legacy
       - home
+      - jack1
       - network
       - network-manager
       - opengl
       - unity7
+      - wayland
       - x11
-      - jack1
 
 parts:
   desktop-qt5:
@@ -52,6 +54,7 @@ parts:
     - libqt5gui5
     - libgdk-pixbuf2.0-0
     - libqt5svg5
+    - qtwayland5
     - try:
       - appmenu-qt5
     - locales-all
@@ -59,13 +62,15 @@ parts:
     - fcitx-frontend-qt5
   mumble:
     after: [desktop-qt5]
-    plugin: qmake
+    plugin: cmake
     source: https://github.com/mumble-voip/mumble.git
     source-branch: "master"
-    qt-version: qt5
-    options:
-      - CONFIG+=no-alsa no-oss no-server -recursive no-update packaged release bundled-celt symbols no-g15
-      - DEFINES+=NO_UPDATE_CHECK
+    configflags:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -Dsymbols=ON
+      - -Dserver=OFF
+      - -Doverlay-xcompile=OFF
+      - -DNO_UPDATE_CHECK=1
     override-pull: |
       snapcraftctl pull
       last_committed_tag="$(git tag | tail -n 1)"
@@ -77,25 +82,21 @@ parts:
         git checkout "${last_committed_tag}"
       fi
       snapcraftctl set-version "$(git describe --tags)"
-    override-build: |
-      git submodule init
-      git submodule update
-      snapcraftctl build
-      if [ ! -d $SNAPCRAFT_PART_INSTALL/bin ]; then
-        mkdir $SNAPCRAFT_PART_INSTALL/bin
-      fi
-      cp -R release/* $SNAPCRAFT_PART_INSTALL/bin
+      git submodule update --init --recursive
+    build-snaps: [cmake]
     build-packages:
-      - zeroc-ice-compilers
-      - zeroc-ice-slice
+      - libasound2-dev
       - libavahi-compat-libdnssd-dev
       - libboost-dev
       - libcap-dev
       - libg15daemon-client-dev
       - libgl1-mesa-dev
+      - libgrpc++-dev
       - libjack-dev
       - libogg-dev
+      - libpoco-dev
       - libprotobuf-dev
+      - libprotoc-dev
       - libpulse-dev
       - libqt5opengl5-dev
       - libqt5svg5-dev
@@ -108,9 +109,13 @@ parts:
       - libzeroc-ice-dev
       - protobuf-compiler
       - qt5-default
+      - qttools5-dev
       - qttools5-dev-tools
       - qttranslations5-l10n
+      - zeroc-ice-compilers
+      - zeroc-ice-slice
     stage-packages:
+      - jackd1
       - libasyncns0
       - libavahi-compat-libdnssd1
       - libflac8
@@ -119,6 +124,9 @@ parts:
       - libglu1-mesa
       - libgtk2.0-0
       - libogg0
+      - libpocofoundation50
+      - libpocoxml50
+      - libpocozip50
       - libprotobuf10
       - libpulse0
       - libqt5sql5-sqlite
@@ -130,4 +138,3 @@ parts:
       - libthai-data
       - libvorbis0a
       - libvorbisenc2
-      - jackd1
