@@ -1,77 +1,84 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/bashfulrobot/snapcrafters-mumble/master/img/mumble-logo.png" alt="Mumble">
-  <br />
-  Mumble
+  <img src="https://raw.githubusercontent.com/snapcrafters/mumble/master/img/mumble-logo.png" alt="Mumble">
 </h1>
 
-<p align="center"><b>This is the snap for Mumble</b>, <i>Mumble is an open source, low-latency, high quality voice chat software.</i>. It works on Ubuntu, Fedora, Debian, and other major Linux
-distributions.</p>
+<p align="center"><b>This is the snap for Mumble.</b> It is a community-maintained package to easily install the app on Ubuntu, Fedora, Debian and other major Linux distributions. It is available in the Snap Store, Ubuntu Software, and a number of other applications.</p>
 
-<!-- Uncomment and modify this when you are provided a build status badge
+<p align="center"><i>"Mumble is Open Source, Low Latency, High Quality Voice Chat"</i></p>
+
 <p align="center">
-<a href="https://build.snapcraft.io/user/snapcrafters/fork-and-rename-me"><img src="https://build.snapcraft.io/badge/snapcrafters/fork-and-rename-me.svg" alt="Snap Status"></a>
+<a href="https://snapcraft.io/mumble"><img src="https://snapcraft.io/mumble/badge.svg" alt="Snap Status"></a>
 </p>
--->
 
-<!-- Uncomment when install is ready
 ## Install
 
-    sudo apt install snapd-xdg-open
-    sudo snap install mumble
+```shell
+snap install mumble
+```
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
--->
 
-<!-- Uncomment and modify this when you have a screenshot
-!mumble(screenshot.png?raw=true "mumble")
--->
+<p align="center">Published for <img src="https://raw.githubusercontent.com/anythingcodes/slack-emoji-for-techies/gh-pages/emoji/tux.png" align="top" width="24" /> with :gift_heart: by Snapcrafters</p>
 
-<p align="center">Published for <img src="http://anything.codes/slack-emoji-for-techies/emoji/tux.png" align="top" width="24" /> with :gift_heart: by Snapcrafters</p>
+## How to contribute to this snap
 
-## Remaining tasks
+Thanks for your interest! Below you find instructions to help you contribute to this snap.
 
-Snapcrafters ([join us](https://forum.snapcraft.io/t/join-snapcrafters/1325)) are working to land snap install documentation and
-the [snapcraft.yaml](https://github.com/snapcrafters/fork-and-rename-me/blob/master/snap/snapcraft.yaml)
-upstream so Mumble can authoritatively publish future releases.
+The general workflow is to submit pull requests that merges your changes into the `master` branch here on GitHub. Once the pull request has been merged, we will automatically build the snap and publish it to the `edge` channel in the Snap Store. Once the snap has been tested thoroughly, we promote it to the `stable` channel so all our users get it!
 
-  - [x] Fork the [Snapcrafters template](https://github.com/snapcrafters/fork-and-rename-me) repository to your own GitHub account
-  - [x] Rename the forked Snapcrafters template repository
-  - [x] Update logos and references to `[Project]` and `[my-snap-name]`
-  - [ ] Create a snap that runs in `devmode`
-  - [ ] Register the snap in the store, **using the preferred upstream name**
-  - [ ] Add a screenshot to this `README.md`
-  - [ ] Publish the `devmode` snap in the Snap store edge channel
-  - [ ] Add install instructions to this `README.md`
-  - [ ] Update snap store metadata, icons and screenshots
-  - [ ] Convert the snap to `strict` confinement, or `classic` confinement if it qualifies
-  - [ ] Publish the confined snap in the Snap store beta channel
-  - [ ] Update the install instructions in this `README.md`
-  - [ ] Post a call for testing on the [Snapcraft Forum](https://forum.snapcraft.io) - [link]()
-  - [ ] Ask a [Snapcrafters admin](https://github.com/orgs/snapcrafters/people?query=%20role%3Aowner) to fork your repo into github.com/snapcrafters, transfer the snap name from you to snapcrafters, and configure the repo for automatic publishing into edge on commit
-  - [ ] Add the provided Snapcraft build badge to this `README.md`
-  - [ ] Publish the snap in the Snap store stable channel
-  - [ ] Update the install instructions in this `README.md`
-  - [ ] Post an announcement in the [Snapcraft Forum](https://forum.snapcraft.io) - [link]()
-  - [ ] Submit a pull request or patch upstream that adds snap install documentation - [link]()
-  - [ ] Submit a pull request or patch upstream that adds the `snapcraft.yaml` and any required assets/launchers - [link]()
-  - [ ] Add upstream contact information to the `README.md`  
-  - If upstream accept the PR:
-    - [ ] Request upstream create a Snap store account
-    - [ ] Contact the Snap Advocacy team to request the snap be transferred to upstream
-  - [ ] Ask the Snap Advocacy team to celebrate the snap - [link]()
+### Initial setup
 
-If you have any questions, [post in the Snapcraft forum](https://forum.snapcraft.io).
+If this is your first time contributing to this snap, you first need to set up your own fork of this repository.
 
-## The Snapcrafters
+1. [Fork the repository](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) into your own GitHub namespace.
+2. [Clone your fork](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository), so that you have it on your local computer.
+3. Configure your local repo. To make things a bit more intuitive, we will rename your fork's remote to `myfork`, and add the snapcrafters repo as `snapcrafters`.
 
-| [![Dustin Krysak](https://avatars5.githubusercontent.com/u/10782881?v=4&s=128)](https://github.com/bashfulrobot/) |
-| :---: |
-| [Dustin Krysak](https://github.com/bashfulrobot/) |
+   ```shell
+   git remote rename origin myfork
+   git remote add snapcrafters https://github.com/snapcrafters/mumble.git
+   git fetch --all
+   ```
 
-<!-- Uncomment and modify this when you have upstream contacts
-## Upstream
+### Submitting changes in a pull request
 
-| [![Upstream Name](http://gravatar.com/avatar/bc0bced65e963eb5c3a16cab8b004431?s=128)](https://github.com/upstreamname) |
-| :---: |
-| [Upstream Name](https://github.com/upstreamname) |
--->
+Once you're all setup for contributing, keep in mind that you want the git information to be all up-to-date. So if you haven't "fetched" all changes in a while, start with that:
+
+```shell
+git fetch --all -p
+```
+
+Now that your git metadata has been updated you are ready to create a bugfix branch, make your changes, and open a pull request.
+
+1. All pull requests should go to the stable branch so create your branch as a copy of the stable branch:
+
+   ```shell
+   git checkout -b my-bugfix-branch snapcrafters/master
+   ```
+
+2. Make your desired changes and build a snap locally for testing:
+
+   ```shell
+   snapcraft --use-lxd
+   ```
+
+3. After you are happy with your changes, commit them and push them to your fork so they are available on GitHub:
+
+   ```shell
+   git commit -a
+   git push -u myfork my-bugfix-branch
+   ```
+
+4. Then, [open up a pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests) from your `my-bugfix-branch` to the `snapcrafters/master` branch.
+5. Once you've opened the pull request, it will automatically trigger the build-test action that will launch a build of the snap. You can watch the progress of the snap build from your pull request (Show all checks -> Details). Once the snap build has completed, you can find the built snap (to test with) under "Artifacts".
+6. Someone from the team will review the open pull request and either merge it or start a discussion with you with additional changes or clarification needed.
+7. Once the pull request has been merged into the stable branch, we will rebuild the snap using your changes and publish it to the [Snap Store](https://snapcraft.io/mumble) into the `edge` channel. After sufficient testing of the snap from the `edge` channel, one of the maintainers or administrators will promote the snap to the stable branch in the Snap Store.
+
+## Maintainers
+
+* [@merlijn-sebrechts](https://github.com/merlijn-sebrechts/)
+
+## License
+
+* The license of both the build files in this repository is the MIT license.
+* The license of Mumble itself is [the 3-clause BSD license](https://github.com/mumble-voip/mumble/blob/master/LICENSE)
