@@ -48,7 +48,7 @@ confinement: strict
 
 apps:
   mumble:
-    command: usr/local/bin/mumble
+    command: usr/bin/mumble
     extensions:
       - kde-neon
     environment:
