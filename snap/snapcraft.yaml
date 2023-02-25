@@ -68,6 +68,7 @@ parts:
     source-branch: "master"
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=/usr
       - -Dsymbols=ON
       - -Dserver=OFF
       - -Doverlay-xcompile=OFF
