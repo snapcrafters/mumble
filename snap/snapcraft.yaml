@@ -41,7 +41,7 @@ issues: https://github.com//snapcrafters/mumble/issues
 source-code: https://github.com//snapcrafters/mumble
 icon: img/mumble-logo.png
 license: BSD-3-Clause
-adopt-info: mumble
+version: v1.5.517
 
 base: core20
 grade: stable
@@ -76,15 +76,6 @@ parts:
       - -DNO_UPDATE_CHECK=1
     override-pull: |
       snapcraftctl pull
-      last_committed_tag="$(git tag | tail -n 1)"
-      last_released_tag="$(snap info mumble | awk '$1 == "latest/beta:" { print $2 }')"
-      # If the latest tag from the upstream project has not been released to
-      # beta, build that tag instead of master.
-      if [ "${last_committed_tag}" != "${last_released_tag}" ]; then
-        git fetch
-        git checkout "${last_committed_tag}"
-      fi
-      snapcraftctl set-version "$(git describe --tags)"
       git submodule update --init --recursive
     build-snaps: [cmake]
     build-packages:
