@@ -41,9 +41,9 @@ issues: https://github.com//snapcrafters/mumble/issues
 source-code: https://github.com//snapcrafters/mumble
 icon: img/mumble-logo.png
 license: BSD-3-Clause
-version: v1.5.517
+adopt-info: mumble
 
-base: core20
+base: core22
 grade: stable
 confinement: strict
 
@@ -66,7 +66,7 @@ parts:
   mumble:
     plugin: cmake
     source: https://github.com/mumble-voip/mumble.git
-    source-branch: "master"
+    source-tag: "v1.5.613"
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX=/usr
@@ -75,8 +75,8 @@ parts:
       - -Doverlay-xcompile=OFF
       - -DNO_UPDATE_CHECK=1
     override-pull: |
-      snapcraftctl pull
-      git submodule update --init --recursive
+      craftctl default
+      craftctl set version=$(git describe --tags --abbrev=0 | cut -c 2-)
     build-snaps: [cmake]
     build-packages:
       - libasound2-dev
@@ -112,10 +112,10 @@ parts:
       - libg15daemon-client1
       - libogg0
       - libopus0
-      - libpocofoundation62
-      - libpocoxml62
-      - libpocozip62
-      - libprotobuf17
+      - libpocofoundation80
+      - libpocoxml80
+      - libpocozip80
+      - libprotobuf23
       - libpulse0
       - libsndfile1
       - libspeechd2
@@ -125,3 +125,17 @@ parts:
       - libvorbis0a
       - libvorbisenc2
       - libxcb-xinerama0
+
+  cleanup:
+    after:
+      - mumble
+    plugin: nil
+    build-snaps:
+      - core22
+      - gnome-42-2204
+    override-prime: |
+      set -eux
+      for snap in "core22" "gnome-42-2204"; do
+          cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$CRAFT_PRIME/{}" \;
+      done
+
