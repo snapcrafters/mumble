@@ -41,7 +41,7 @@ issues: https://github.com//snapcrafters/mumble/issues
 source-code: https://github.com//snapcrafters/mumble
 icon: img/mumble-logo.png
 license: BSD-3-Clause
-adopt-info: mumble
+version: '1.5.613'
 
 base: core22
 grade: stable
@@ -66,7 +66,8 @@ parts:
   mumble:
     plugin: cmake
     source: https://github.com/mumble-voip/mumble.git
-    source-tag: "v1.5.613"
+    source-tag: "v$SNAPCRAFT_PROJECT_VERSION"
+    source-depth: 1
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX=/usr
@@ -74,9 +75,6 @@ parts:
       - -Dserver=OFF
       - -Doverlay-xcompile=OFF
       - -DNO_UPDATE_CHECK=1
-    override-pull: |
-      craftctl default
-      craftctl set version=$(git describe --tags --abbrev=0 | cut -c 2-)
     build-snaps: [cmake]
     build-packages:
       - libasound2-dev
