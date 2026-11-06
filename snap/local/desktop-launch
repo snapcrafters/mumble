@@ -1,0 +1,15 @@
+#!/bin/sh
+# Keep GPU provider paths first; PulseAudio also needs its private library dir.
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$SNAP/usr/lib/$ARCH_TRIPLET:$SNAP/usr/lib/$ARCH_TRIPLET/pulseaudio"
+
+export XDG_CACHE_HOME="$SNAP_USER_COMMON/.cache"
+export XDG_CONFIG_HOME="$SNAP_USER_DATA/.config"
+export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}:$SNAP/etc/xdg"
+export XDG_DATA_DIRS="$SNAP/usr/local/share:$SNAP/usr/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+
+# snapd's per-snap runtime directory is a sibling of the session PulseAudio socket.
+if [ -z "${PULSE_SERVER:-}" ] && [ -n "${XDG_RUNTIME_DIR:-}" ]; then
+    export PULSE_SERVER="unix:$XDG_RUNTIME_DIR/../pulse/native"
+fi
+
+exec "$@"
