@@ -36,31 +36,52 @@ description: |
 
   This snap is maintained by the Snapcrafters community, and is not endorsed or officially maintained by the upstream developers.
 website: https://www.mumble.info/
-contact: https://github.com//snapcrafters/mumble/issues
-issues: https://github.com//snapcrafters/mumble/issues
-source-code: https://github.com//snapcrafters/mumble
+contact: https://github.com/snapcrafters/mumble/issues
+issues: https://github.com/snapcrafters/mumble/issues
+source-code: https://github.com/snapcrafters/mumble
 icon: img/mumble-logo.png
 license: BSD-3-Clause
-version: '1.5.613'
+version: '1.5.939'
 
-base: core22
+base: core24
 grade: stable
 confinement: strict
+
+platforms:
+  amd64:
+  arm64:
+
+layout:
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
+  /usr/share/fonts:
+    bind: $SNAP/usr/share/fonts
+  /etc/fonts:
+    bind: $SNAP/etc/fonts
 
 apps:
   mumble:
     command: usr/bin/mumble
     extensions:
-      - kde-neon
+      - gpu
     environment:
-      ALSA_CONFIG_PATH: $SNAP/etc/alsa.conf
+      QT_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt5/plugins
+      QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt5/plugins/platforms
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio
+      PULSE_SERVER: unix:$XDG_RUNTIME_DIR/../pulse/native
+      XKB_CONFIG_ROOT: $SNAP/usr/share/X11/xkb
     plugs:
       - audio-playback
       - audio-record
+      - desktop
+      - desktop-legacy
       - home
       - jack1
       - network
       - network-manager
+      - opengl
+      - wayland
+      - x11
 
 parts:
   mumble:
@@ -71,12 +92,23 @@ parts:
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DBUILD_NUMBER=${SNAPCRAFT_PROJECT_VERSION##*.}
       - -Dsymbols=ON
       - -Dserver=OFF
       - -Doverlay-xcompile=OFF
-      - -DNO_UPDATE_CHECK=1
-    build-snaps: [cmake]
+      - -Dupdate=OFF
+      # Native PipeWire requires socket access not provided by the audio plugs.
+      # PulseAudio (including PipeWire's PulseAudio server) and JACK stay enabled.
+      - -Dpipewire=OFF
     build-packages:
+      - cmake
+      - g++
+      - git
+      - pkg-config
+      - qtbase5-dev
+      - qttools5-dev
+      - qttools5-dev-tools
+      - libqt5svg5-dev
       - libasound2-dev
       - libavahi-compat-libdnssd-dev
       - libboost-dev
@@ -103,17 +135,37 @@ parts:
       - zeroc-ice-compilers
       - zeroc-ice-slice
     stage-packages:
+      - fontconfig
+      - fonts-dejavu-core
+      - shared-mime-info
+      - adwaita-icon-theme
+      - xkb-data
+      - libqt5concurrent5t64
+      - libqt5core5t64
+      - libqt5dbus5t64
+      - libqt5gui5t64
+      - libqt5network5t64
+      - libqt5sql5t64
+      - libqt5sql5-sqlite
+      - libqt5svg5
+      - libqt5widgets5t64
+      - libqt5xml5t64
+      - qttranslations5-l10n
+      - qtwayland5
+      - qt5-gtk-platformtheme
       - jackd1
       - libasyncns0
       - libavahi-compat-libdnssd1
-      - libflac8
-      - libg15daemon-client1
+      - libflac12t64
+      - libg15daemon-client1t64
       - libogg0
       - libopus0
-      - libpocofoundation80
-      - libpocoxml80
-      - libpocozip80
-      - libprotobuf23
+      - libpocofoundation80t64
+      - libpocoxml80t64
+      - libpocozip80t64
+      # PortAudio is loaded dynamically; keep its runtime alongside PulseAudio/JACK.
+      - libportaudio2
+      - libprotobuf32t64
       - libpulse0
       - libsndfile1
       - libspeechd2
@@ -123,17 +175,3 @@ parts:
       - libvorbis0a
       - libvorbisenc2
       - libxcb-xinerama0
-
-  cleanup:
-    after:
-      - mumble
-    plugin: nil
-    build-snaps:
-      - core22
-      - gnome-42-2204
-    override-prime: |
-      set -eux
-      for snap in "core22" "gnome-42-2204"; do
-          cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$CRAFT_PRIME/{}" \;
-      done
-
