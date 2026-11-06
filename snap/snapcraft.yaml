@@ -159,6 +159,7 @@ parts:
       - libqt5sql5-sqlite
       - libqt5svg5
       - libqt5widgets5t64
+      - libqt5xml5t64
       - qttranslations5-l10n
       - qtwayland5
       - qt5-gtk-platformtheme
