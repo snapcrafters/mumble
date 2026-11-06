@@ -96,13 +96,10 @@ parts:
     source: https://github.com/mumble-voip/mumble.git
     source-tag: "v$SNAPCRAFT_PROJECT_VERSION"
     source-depth: 1
-    override-build: |
-      version="$(craftctl get version)"
-      cmake "$CRAFT_PART_SRC" -DBUILD_NUMBER="${version##*.}"
-      craftctl default
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DBUILD_NUMBER=${SNAPCRAFT_PROJECT_VERSION##*.}
       - -Dsymbols=ON
       - -Dserver=OFF
       - -Doverlay-xcompile=OFF
