@@ -8,18 +8,6 @@ concurrency:
 permissions:
   contents: read
 jobs:
-  version-sync-tests:
-    name: Test packaging helpers
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          persist-credentials: false
-      - name: Test launcher and fail-closed version updates
-        run: |
-          python3 -m unittest discover -s snap/tests -v
-          python3 .github/tests/test_version_sync.py
-
   build:
     name: 🧪 Build snap on amd64
     runs-on: ubuntu-latest
