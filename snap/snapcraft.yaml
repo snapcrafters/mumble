@@ -99,7 +99,7 @@ parts:
     cmake-parameters:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX=/usr
-      - -DBUILD_NUMBER=${CRAFT_PROJECT_VERSION##*.}
+      - -DBUILD_NUMBER="$(craftctl get version | cut -d. -f3)"
       - -Dsymbols=ON
       - -Dserver=OFF
       - -Doverlay-xcompile=OFF
