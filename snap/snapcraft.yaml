@@ -62,14 +62,13 @@ layout:
 apps:
   mumble:
     command: usr/bin/mumble
-    command-chain:
-      - bin/desktop-launch
     extensions:
       - gpu
     environment:
       QT_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt5/plugins
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt5/plugins/platforms
-      ARCH_TRIPLET: $CRAFT_ARCH_TRIPLET_BUILD_FOR
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio
+      PULSE_SERVER: unix:$XDG_RUNTIME_DIR/../pulse/native
       XKB_CONFIG_ROOT: $SNAP/usr/share/X11/xkb
     plugs:
       - audio-playback
@@ -85,14 +84,6 @@ apps:
       - x11
 
 parts:
-  desktop-launch:
-    plugin: dump
-    source: snap/local
-    stage:
-      - bin/desktop-launch
-    organize:
-      desktop-launch: bin/desktop-launch
-
   mumble:
     plugin: cmake
     source: https://github.com/mumble-voip/mumble.git
