@@ -1,77 +1,97 @@
 <h1 align="center">
   <img src="img/mumble-logo.png" alt="Mumble">
-  <br />
-  Mumble
-  <br />
 </h1>
 
-<p align="center"><b>This is the snap for Mumble</b>, <em>"Open Source, Low Latency, High Quality Voice Chat"</em>. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.</p>
+<p align="center"><b>This is the snap for Mumble</b>. It is a community-maintained package to easily install Mumble on Ubuntu, Fedora, Debian and other major Linux distributions. It is available in the Snap Store, Ubuntu Software, and a number of other applications.</p>
+
+<p align="center"><i>"Open Source, Low Latency, High Quality Voice Chat"</i></p>
 
 <p align="center">
-  <a href="https://snapcraft.io/mumble"><img alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" /></a>
+<a href="https://snapcraft.io/mumble"><img src="https://snapcraft.io/mumble/badge.svg" alt="Snap Status"></a>
+<a href="https://github.com/snapcrafters/mumble/actions/workflows/sync-version-with-upstream.yml"><img src="https://github.com/snapcrafters/mumble/actions/workflows/sync-version-with-upstream.yml/badge.svg" alt="Upstream version sync"></a>
+<a href="https://github.com/snapcrafters/mumble/actions/workflows/release-to-candidate.yml"><img src="https://github.com/snapcrafters/mumble/actions/workflows/release-to-candidate.yml/badge.svg" alt="Candidate releases"></a>
+<a href="https://github.com/snapcrafters/mumble/actions/workflows/promote-to-stable.yml"><img src="https://github.com/snapcrafters/mumble/actions/workflows/promote-to-stable.yml/badge.svg" alt="Stable promotion"></a>
 </p>
-
-<p align="center">
-  <a href="https://snapcraft.io/mumble"><img src="https://snapcraft.io/mumble/badge.svg" alt="Snap Store version"></a>
-  <a href="https://github.com/snapcrafters/mumble/actions/workflows/pull-request.yml"><img src="https://github.com/snapcrafters/mumble/actions/workflows/pull-request.yml/badge.svg" alt="Pull request builds"></a>
-  <a href="https://github.com/snapcrafters/mumble/actions/workflows/release-to-candidate.yml"><img src="https://github.com/snapcrafters/mumble/actions/workflows/release-to-candidate.yml/badge.svg?branch=candidate" alt="Candidate releases"></a>
-  <a href="https://github.com/snapcrafters/mumble/actions/workflows/sync-version-with-upstream.yml"><img src="https://github.com/snapcrafters/mumble/actions/workflows/sync-version-with-upstream.yml/badge.svg?branch=candidate" alt="Upstream version sync"></a>
-</p>
-
-This community-maintained package contains the desktop client, not the Mumble server. It is not officially maintained by the upstream developers.
 
 ## Install
 
 ```shell
-sudo snap install mumble
+snap install mumble
 ```
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
-## Configuration
+<p align="center">Published for <img src="https://raw.githubusercontent.com/anythingcodes/slack-emoji-for-techies/gh-pages/emoji/tux.png" align="top" width="24" /> with :gift_heart: by Snapcrafters</p>
+
+## Snap configuration
+
+This package contains the Mumble desktop client, not the server.
 
 ### Microphone access
 
 If microphone access is not connected automatically, connect it explicitly:
 
 ```shell
-sudo snap connect mumble:audio-record
+snap connect mumble:audio-record
 ```
 
 Use Mumble's Audio Wizard to select and test your input and output devices. PulseAudio works with both PulseAudio desktops and PipeWire's PulseAudio compatibility service.
 
-## How to contribute
+## How to contribute to this snap
 
-### Reporting issues
+Thanks for your interest! Below you find instructions to help you contribute to this snap.
 
-Please [open an issue](https://github.com/snapcrafters/mumble/issues/new) if you find a bug, have a feature request, or if the snap is out of date. Include the snap revision, your desktop environment and steps to reproduce.
+The general workflow is to submit pull requests that merge your changes into the `candidate` branch here on GitHub. Once the pull request has been merged, a GitHub action will automatically build the snap and publish it to the `candidate` channel in the Snap Store. Once the snap has been tested thoroughly, we promote it to the `stable` channel so all our users get it!
 
-### Updating the snap
+### Initial setup
 
-Snap versions are [automatically kept in sync](https://github.com/snapcrafters/mumble/actions/workflows/sync-version-with-upstream.yml) with upstream releases. To update it manually, [open a pull request](https://github.com/snapcrafters/mumble/compare) against `candidate`.
+If this is your first time contributing to this snap, you first need to set up your own fork of this repository.
 
-When the pull request is merged, the release workflow builds the declared architectures remotely and publishes to `latest/candidate`. It then creates a call-for-testing issue and gathers screenshots. After testing, a maintainer can promote the snap to stable.
+1. [Fork the repository](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) into your own GitHub namespace.
+2. [Clone your fork](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository), so that you have it on your local computer.
+3. Configure your local repo. To make things a bit more intuitive, we will rename your fork's remote to `myfork`, and add the snapcrafters repo as `snapcrafters`.
 
-To build locally with Snapcraft and LXD:
+   ```shell
+   git remote rename origin myfork
+   git remote add snapcrafters https://github.com/snapcrafters/mumble.git
+   git fetch --all
+   ```
+
+### Submitting changes in a pull request
+
+Once you're all setup for contributing, keep in mind that you want the git information to be all up-to-date. So if you haven't "fetched" all changes in a while, start with that:
 
 ```shell
-snapcraft pack --use-lxd
+git fetch --all -p
 ```
 
-### Testing
+Now that your git metadata has been updated you are ready to create a bugfix branch, make your changes, and open a pull request.
 
-Subscribe to the [candidate channel](https://snapcraft.io/mumble) and [leave a comment](https://github.com/snapcrafters/mumble/issues?q=is%3Aissue+is%3Aopen+label%3Atesting) with your results.
+1. All pull requests should go to the `candidate` branch, so create your branch as a copy of that branch:
 
-```shell
-sudo snap install mumble --channel=candidate
-```
+   ```shell
+   git checkout -b my-bugfix-branch snapcrafters/candidate
+   ```
 
-For an existing installation, use `sudo snap refresh mumble --channel=candidate`. Test audio setup, a server connection and normal voice chat. Return to stable with `sudo snap refresh mumble --channel=stable`.
+2. Make your desired changes and build a snap locally for testing:
 
-### Maintainers
+   ```shell
+   snapcraft --use-lxd
+   ```
 
-- [@merlijn-sebrechts](https://github.com/merlijn-sebrechts)
+3. After you are happy with your changes, commit them and push them to your fork so they are available on GitHub:
+
+   ```shell
+   git commit -a
+   git push -u myfork my-bugfix-branch
+   ```
+
+4. Then, [open up a pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests) from your `my-bugfix-branch` to the `snapcrafters/candidate` branch.
+5. Once you've opened the pull request, it will automatically trigger the build-test action that will launch a build of the snap. You can watch the progress of the snap build from your pull request (Show all checks -> Details). Once the snap build has completed, you can find the built snap (to test with) under "Artifacts".
+6. Someone from the team will review the open pull request and either merge it or start a discussion with you with additional changes or clarification needed.
+7. Once the pull request has been merged into the `candidate` branch, a GitHub action will rebuild the snap using your changes and publish it to the [Snap Store](https://snapcraft.io/mumble) into the `candidate` channel. After sufficient testing of the snap from the candidate channel, the team can promote the snap to the stable channel in the Snap Store.
 
 ## License
 
-The scripts and documentation in this project are released under the [MIT License](LICENSE). Mumble itself is released under the [3-clause BSD license](https://github.com/mumble-voip/mumble/blob/master/LICENSE).
+- The build files and documentation in this repository are released under the [MIT License](LICENSE).
+- Mumble itself is released under the [3-clause BSD license](https://github.com/mumble-voip/mumble/blob/master/LICENSE).
