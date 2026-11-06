@@ -52,6 +52,8 @@ platforms:
   arm64:
 
 layout:
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
   /usr/share/fonts:
     bind: $SNAP/usr/share/fonts
   /etc/fonts:
