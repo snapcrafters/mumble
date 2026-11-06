@@ -1,0 +1,56 @@
+name: Sync version with upstream
+on:
+  schedule:
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  sync:
+    name: 🔄 Sync version with upstream
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔄 Sync version with upstream
+        uses: snapcrafters/ci/sync-version@main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          token: ${{ secrets.SNAPCRAFTERS_BOT_COMMIT }}
+          update-script: |
+            set -euo pipefail
+            # releases/latest excludes drafts and prereleases; authenticate to avoid anonymous limits.
+            RELEASE=$(gh api repos/mumble-voip/mumble/releases/latest)
+            TAG=$(jq -er 'select(.draft == false and .prerelease == false) | .tag_name | select(type == "string")' <<< "$RELEASE")
+            [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ && ${#TAG} -le 33 ]] || {
+              echo 'Expected a stable Mumble tag vMAJOR.MINOR.PATCH' >&2
+              exit 1
+            }
+            VERSION=${TAG#v}
+            MANIFEST=snap/snapcraft.yaml
+            # Parse the complete YAML before touching it; reject multiple documents and missing versions.
+            # Inspect YAML nodes before JSON conversion can collapse duplicate mapping keys.
+            [[ $(yq '[.. | select(tag == "!!map") | to_entries | group_by(.key) | .[] | select(length > 1)] | length' "$MANIFEST") -eq 0 ]]
+            yq -o=json '.' "$MANIFEST" | jq -se 'length == 1 and (.[0] | type == "object" and (.version | type == "string"))' >/dev/null
+            [[ $(grep -cE '^version:' "$MANIFEST") -eq 1 ]]
+            OLD_LINE=$(grep -E '^version:' "$MANIFEST")
+            OLD_VERSION=$(yq -r '.version' "$MANIFEST")
+            [[ "$OLD_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+            # Only a simple scalar may be replaced; reject anchors, tags, comments, and trailing data.
+            [[ "$OLD_LINE" == "version: '$OLD_VERSION'" || "$OLD_LINE" == "version: \"$OLD_VERSION\"" || "$OLD_LINE" == "version: $OLD_VERSION" ]]
+            if [[ "$VERSION" == "$OLD_VERSION" ]]; then
+              echo "upstream version is unchanged: $VERSION"
+              exit 0
+            fi
+            CANDIDATE=$(mktemp "${MANIFEST}.sync-version.XXXXXX")
+            trap 'rm -f -- "$CANDIDATE"' EXIT
+            sed -E "s/^version:.*$/version: '$VERSION'/" "$MANIFEST" > "$CANDIDATE"
+            chmod --reference="$MANIFEST" "$CANDIDATE"
+            [[ $(grep -cE '^version:' "$CANDIDATE") -eq 1 ]]
+            [[ $(yq -r '.version' "$CANDIDATE") == "$VERSION" ]]
+            yq -o=json '.' "$CANDIDATE" | jq -se 'length == 1 and (.[0] | type == "object")' >/dev/null
+            ! cmp -s "$MANIFEST" "$CANDIDATE"
+            # Atomic replacement is the only write to the manifest, after all validation.
+            mv -- "$CANDIDATE" "$MANIFEST"
