@@ -2,9 +2,14 @@
   <img src="img/mumble-logo.png" alt="Mumble">
   <br />
   Mumble
+  <br />
 </h1>
 
-<p align="center"><b>This is the snap for Mumble</b>, a free, open-source, low-latency, high-quality voice chat application. It works on Ubuntu, Fedora, Debian and other major Linux distributions.</p>
+<p align="center"><b>This is the snap for Mumble</b>, <em>"Open Source, Low Latency, High Quality Voice Chat"</em>. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.</p>
+
+<p align="center">
+  <a href="https://snapcraft.io/mumble"><img alt="Get it from the Snap Store" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" /></a>
+</p>
 
 <p align="center">
   <a href="https://snapcraft.io/mumble"><img src="https://snapcraft.io/mumble/badge.svg" alt="Snap Store version"></a>
@@ -13,7 +18,7 @@
   <a href="https://github.com/snapcrafters/mumble/actions/workflows/sync-version-with-upstream.yml"><img src="https://github.com/snapcrafters/mumble/actions/workflows/sync-version-with-upstream.yml/badge.svg?branch=candidate" alt="Upstream version sync"></a>
 </p>
 
-This package is maintained by the Snapcrafters community. It is not an official upstream Mumble package and contains the desktop client, not the Mumble server.
+This community-maintained package contains the desktop client, not the Mumble server. It is not officially maintained by the upstream developers.
 
 ## Install
 
@@ -21,7 +26,9 @@ This package is maintained by the Snapcrafters community. It is not an official 
 sudo snap install mumble
 ```
 
-[Install snapd first](https://snapcraft.io/docs/core/install) if it is not already available on your distribution.
+([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
+
+## Configuration
 
 ### Microphone access
 
@@ -31,60 +38,40 @@ If microphone access is not connected automatically, connect it explicitly:
 sudo snap connect mumble:audio-record
 ```
 
-Use Mumble's Audio Wizard to select and test your input and output devices. PulseAudio is supported, including the PulseAudio compatibility server on PipeWire desktops; the native PipeWire backend is disabled because the audio interfaces do not expose its socket. Network voice chat and desktop integration are subject to the snap's strict confinement; the upstream feature list is not a guarantee that every game overlay or positional-audio integration is available in this package.
+Use Mumble's Audio Wizard to select and test your input and output devices. PulseAudio works with both PulseAudio desktops and PipeWire's PulseAudio compatibility service.
 
-## Contribute
+## How to contribute
 
-### Report an issue
+### Reporting issues
 
-[Open an issue](https://github.com/snapcrafters/mumble/issues/new) for packaging bugs, missing functionality or outdated releases. Include the output of `snap info mumble`, your distribution, desktop session and steps to reproduce. Report application bugs that also occur outside the snap to [Mumble upstream](https://github.com/mumble-voip/mumble/issues).
+Please [open an issue](https://github.com/snapcrafters/mumble/issues/new) if you find a bug, have a feature request, or if the snap is out of date. Include the snap revision, your desktop environment and steps to reproduce.
 
-### Update the snap
+### Updating the snap
 
-Open pull requests against **`candidate`**. The [upstream sync workflow](https://github.com/snapcrafters/mumble/actions/workflows/sync-version-with-upstream.yml) checks for new stable upstream releases daily.
+Snap versions are [automatically kept in sync](https://github.com/snapcrafters/mumble/actions/workflows/sync-version-with-upstream.yml) with upstream releases. To update it manually, [open a pull request](https://github.com/snapcrafters/mumble/compare) against `candidate`.
 
-To build locally, fork this repository, clone your fork and create a branch from `candidate`. With Snapcraft and LXD installed and configured, run:
+When the pull request is merged, the release workflow builds the declared architectures remotely and publishes to `latest/candidate`. It then creates a call-for-testing issue and gathers screenshots. After testing, a maintainer can promote the snap to stable.
+
+To build locally with Snapcraft and LXD:
 
 ```shell
 snapcraft pack --use-lxd
 ```
 
-Install your locally built artifact for testing:
+### Testing
+
+Subscribe to the [candidate channel](https://snapcraft.io/mumble) and [leave a comment](https://github.com/snapcrafters/mumble/issues?q=is%3Aissue+is%3Aopen+label%3Atesting) with your results.
 
 ```shell
-sudo snap install --dangerous ./mumble_<version>_<architecture>.snap
+sudo snap install mumble --channel=candidate
 ```
 
-Replace the filename with the artifact produced by your build. Pull requests use the [shared Snapcrafters CI](https://github.com/snapcrafters/ci) to build and review the amd64 snap.
+For an existing installation, use `sudo snap refresh mumble --channel=candidate`. Test audio setup, a server connection and normal voice chat. Return to stable with `sudo snap refresh mumble --channel=stable`.
 
-After a change is merged to `candidate`, the release workflow builds the declared architectures remotely and publishes them to `latest/candidate`. It then opens a call-for-testing issue and gathers desktop screenshots. Publication requires the repository's release credentials and `Candidate Branch` environment to be configured. Stable promotion is a separate maintainer action after testing, not an automatic consequence of merging a pull request.
+### Maintainers
 
-### Test candidate releases
-
-For a new installation:
-
-```shell
-sudo snap install mumble --channel=latest/candidate
-```
-
-For an existing installation:
-
-```shell
-sudo snap refresh mumble --channel=latest/candidate
-```
-
-Test the audio setup, connection to a server and normal voice-chat workflow. Leave your results on the relevant [call-for-testing issue](https://github.com/snapcrafters/mumble/issues?q=is%3Aissue+is%3Aopen+label%3Atesting), including the snap revision and your desktop environment.
-
-Return to stable with:
-
-```shell
-sudo snap refresh mumble --channel=latest/stable
-```
-
-## Maintainers
-
-- [@merlijn-sebrechts](https://github.com/merlijn-sebrechts/)
+- [@merlijn-sebrechts](https://github.com/merlijn-sebrechts)
 
 ## License
 
-The build scripts and documentation in this repository are released under the [MIT License](LICENSE). Mumble itself is released under the [3-clause BSD license](https://github.com/mumble-voip/mumble/blob/master/LICENSE).
+The scripts and documentation in this project are released under the [MIT License](LICENSE). Mumble itself is released under the [3-clause BSD license](https://github.com/mumble-voip/mumble/blob/master/LICENSE).
