@@ -41,7 +41,7 @@ issues: https://github.com/snapcrafters/mumble/issues
 source-code: https://github.com/snapcrafters/mumble
 icon: img/mumble-logo.png
 license: BSD-3-Clause
-version: '1.5.613'
+version: '1.5.939'
 
 base: core24
 grade: stable
